@@ -1,7 +1,7 @@
 import re
 from typing import Pattern, Callable
 
-from atcodertools.codegen.code_generators import cpp, java, rust, python, nim, d, cs, swift, go, julia
+from atcodertools.codegen.code_generators import cpp, elixir, java, rust, python, nim, d, cs, swift, go, julia
 from atcodertools.codegen.models.code_gen_args import CodeGenArgs
 from atcodertools.tools.templates import get_default_template_path
 from atcodertools.codegen.code_style_config import INDENT_TYPE_TAB
@@ -124,7 +124,7 @@ PYTHON = Language(
     name="python",
     display_name="Python",
     extension="py",
-    submission_lang_pattern=re.compile(".*Python3.*|^Python$"),
+    submission_lang_pattern=re.compile(".*PyPy3.*|^Python$"),
     default_code_generator=python.main,
     default_template_path=get_default_template_path('py'),
     compile_command="python3 -mpy_compile {filename}.py",
@@ -206,5 +206,17 @@ JULIA = Language(
     exec_filename="{filename}.jl"
 )
 
-ALL_LANGUAGES = [CPP, JAVA, RUST, PYTHON, NIM, DLANG, CSHARP, SWIFT, GO, JULIA]
+ELIXIR = Language(
+    name="elixir",
+    display_name="Elixir",
+    extension="ex",
+    submission_lang_pattern=re.compile(".*Elixir.*"),
+    default_code_generator=elixir.main,
+    default_template_path=get_default_template_path('ex'),
+    compile_command="elixirc {filename}.ex",
+    test_command="elixir -e Main.main()",
+    exec_filename="Elixir.Main.beam"
+)
+
+ALL_LANGUAGES = [CPP, JAVA, RUST, PYTHON, NIM, DLANG, CSHARP, SWIFT, GO, JULIA, ELIXIR]
 ALL_LANGUAGE_NAMES = [lang.display_name for lang in ALL_LANGUAGES]

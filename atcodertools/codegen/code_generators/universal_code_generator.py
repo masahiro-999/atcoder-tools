@@ -23,8 +23,10 @@ class UniversalCodeGenerator():
         if "index" not in self.info:
             self.info["index"] = {"i": "i", "j": "j"}
 
+        self.variable_lowercase_only = self.info.get("variable_lowercase_only", False)
+
     def _get_length(self, index) -> str:
-        return self._insert_space_around_operators(str(index.get_length()))
+        return self._insert_space_around_operators(str(index.get_length()).lower())
 
     def _loop_header(self, var: Variable, for_second_index: bool):
         if for_second_index:
@@ -108,7 +110,8 @@ class UniversalCodeGenerator():
         return self.info["input_func"][type_.value]
 
     def _get_format_keywords(self, var: Variable) -> dict:
-        result = {"name": var.name, "type": self._convert_type(
+        name = var.name.lower() if self.variable_lowercase_only else var.name
+        result = {"name": name, "type": self._convert_type(
             var.type), "default": self._default_val(var.type)}
         if "input_func" in self.info:
             result["input_func"] = self._get_input_func(var.type)
@@ -145,15 +148,16 @@ class UniversalCodeGenerator():
         """
         ret = []
         for v in self._format.all_vars():
+            name = v.name.lower() if self.variable_lowercase_only else v.name
             if v.dim_num() == 0:
-                ret.append(v.name)
+                ret.append(name)
             else:
                 kind = self._get_variable_kind(v)
                 if "actual_arg" in self.info:
                     ret.append(
-                        self.info["actual_arg"][kind].format(name=v.name))
+                        self.info["actual_arg"][kind].format(name=name))
                 else:
-                    ret.append(v.name)
+                    ret.append(name)
         return ", ".join(ret)
 
     def _formal_arguments(self):
@@ -186,7 +190,8 @@ class UniversalCodeGenerator():
         :return: Create declaration part E.g. array[1..n] -> std::vector<int> array = std::vector<int>(n-1+1);
         """
         if var.dim_num() == 0:  # ほとんどの言語ではint, float, stringは宣言したら確保もされるはず、そうでない言語だったらこれだとまずそう
-            return self.info["declare"][var.type.value].format(name=var.name)
+            name = var.name.lower() if self.variable_lowercase_only else var.name
+            return self.info["declare"][var.type.value].format(name=name)
         else:
             kwd = self._get_format_keywords(var)
             kind = self._get_variable_kind(var)
@@ -198,7 +203,7 @@ class UniversalCodeGenerator():
         return self.info["input"][var.type.value].format(**kwd)
 
     def _get_var_name(self, var: Variable):
-        name = var.name
+        name = var.name.lower() if self.variable_lowercase_only else var.name
         if var.dim_num() == 0:
             return name
         elif var.dim_num() == 1:

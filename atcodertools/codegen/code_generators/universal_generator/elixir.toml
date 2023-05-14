@@ -1,0 +1,88 @@
+base_indent = 2
+insert_space_around_operators = true
+variable_lowercase_only = true
+
+# global変数宣言時の接頭辞
+global_prefix = ""
+
+# インデックス
+[index]
+i = "i"
+j = "j"
+
+# ループ
+[loop]
+header = "[_,_] = (for _ <- 1..{length}, do: li())|> Enum.zip_with(&(&1))"
+footer = ""
+
+# タイプ
+[type]
+int = "int"
+float = "float"
+str = "str"
+
+# デフォルト値
+[default]
+int = "int()"
+float = "float()"
+str = "str()"
+
+# 宣言
+[declare]
+int = ""
+float = ""
+str = ""
+seq = ""
+2d_seq = ""
+
+# 確保
+[allocate]
+seq = "# not supported"
+2d_seq = "# not supported"
+
+# 宣言と確保
+[declare_and_allocate]
+seq = ""
+declare_and_allocate_2d_seq = ""
+
+# 入力関数
+[input_func]
+int = "ii()"
+float = "String.to_float(input())"
+str = "input()"
+seq = "li()"
+
+# 入力
+[input]
+int = "{name} = {input_func}"
+float = "{name} = {input_func}"
+str = "{name} = {input_func}"
+
+# 宣言と入力
+[declare_and_input]
+int = "{name} = {input_func}"
+float = "{name} = {input_func}"
+str = "{name} = {input_func}"
+
+# 確保と入力
+[allocate_and_input]
+seq = "# not supported"
+2d_seq = "# not supported"
+
+# 宣言と確保と入力
+[declare_and_allocate_and_input]
+seq = "{name} = li()  # type: \"List[{type}]\""
+2d_seq = "{name} = for _ <- 0..{length_j}, do: li()"
+
+# 引数
+[arg]
+int = "{name}"
+float = "{name}"
+str = "{name}"
+seq = "{name}"
+2d_seq = "{name}"
+
+# 配列アクセス
+[access]
+seq = "#_ の部分を{name}に変更する事"
+2d_seq = "# not supported"
