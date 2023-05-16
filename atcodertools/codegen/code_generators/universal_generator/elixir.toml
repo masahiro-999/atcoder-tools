@@ -72,7 +72,7 @@ seq = "# not supported"
 # 宣言と確保と入力
 [declare_and_allocate_and_input]
 seq = "{name} = li()  # type: \"List[{type}]\""
-2d_seq = "{name} = for _ <- 0..{length_j}, do: li()"
+2d_seq = "{name} = for _ <- 1..{length_i}, do: li()"
 
 # 引数
 [arg]
