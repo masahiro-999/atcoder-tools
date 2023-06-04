@@ -26,7 +26,10 @@ class UniversalCodeGenerator():
         self.variable_lowercase_only = self.info.get("variable_lowercase_only", False)
 
     def _get_length(self, index) -> str:
-        return self._insert_space_around_operators(str(index.get_length()).lower())
+        get_length = str(index.get_length())
+        if self.variable_lowercase_only:
+            get_length = get_length.lower()
+        return self._insert_space_around_operators(get_length)
 
     def _loop_header(self, var: Variable, for_second_index: bool):
         if for_second_index:
